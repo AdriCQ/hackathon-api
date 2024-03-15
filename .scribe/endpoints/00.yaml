@@ -1,0 +1,230 @@
+name: Usuarios
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/users/auth
+    metadata:
+      groupName: Usuarios
+      groupDescription: ''
+      subgroup: Autenticación
+      subgroupDescription: ''
+      title: 'Usuario Actual'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":15,"name":"Aaron Venegas","phone":"2024-03-15T04:50:42.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/auth/login
+    metadata:
+      groupName: Usuarios
+      groupDescription: ''
+      subgroup: Autenticación
+      subgroupDescription: ''
+      title: Login
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      phone:
+        name: phone
+        description: 'Teléfono móvil.'
+        required: true
+        example: aliquam
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: 'Contraseña de usuario. El campo value debe contener al menos 6 caracteres.'
+        required: true
+        example: /8!!N7l~r
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      phone: aliquam
+      password: /8!!N7l~r
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":16,"name":"Lic. Miguel \u00c1ngel Pedroza","phone":"2024-03-15T04:50:42.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/auth/register
+    metadata:
+      groupName: Usuarios
+      groupDescription: ''
+      subgroup: Autenticación
+      subgroupDescription: ''
+      title: 'Registrar Nuevo Usuario'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      phone:
+        name: phone
+        description: 'Teléfono móvil.'
+        required: true
+        example: esse
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: 'Contraseña de usuario. El campo value debe contener al menos 6 caracteres.'
+        required: true
+        example: 'Y2Ae:t4SQD^|'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      phone: esse
+      password: 'Y2Ae:t4SQD^|'
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":17,"name":"Daniel Montoya","phone":"2024-03-15T04:50:42.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/users/filter
+    metadata:
+      groupName: Usuarios
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Filtrar Usuarios'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Nombre de Usuario.'
+        required: false
+        example: quis
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order_by:
+        name: order_by
+        description: 'Criterio de ordenamiento.'
+        required: false
+        example: 'name, phone, id, created_at'
+        type: string
+        enumValues:
+          - name
+          - phone
+          - id
+          - created_at
+        exampleWasSpecified: false
+        custom: []
+      phone:
+        name: phone
+        description: 'Teléfono móvil.'
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      paginate:
+        name: paginate
+        description: 'Cantidad de elementos por página (10 por defecto).'
+        required: false
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      name: quis
+      order_by: 'name, phone, id, created_at'
+      paginate: 6
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":18,"name":"\u00c1ngel Caro","phone":"2024-03-15T04:50:42.000000Z"},{"id":19,"name":"Ing. Amparo Solorzano Hijo","phone":"2024-03-15T04:50:42.000000Z"}],"links":{"first":"\/?page=1","last":null,"prev":null,"next":null},"meta":{"current_page":1,"from":1,"path":"\/","per_page":10,"to":2}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

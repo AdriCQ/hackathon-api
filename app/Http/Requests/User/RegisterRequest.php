@@ -32,4 +32,23 @@ class RegisterRequest extends FormRequest
             ],
         ];
     }
+
+    /**
+     * bodyParameters
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => 'Nombre de Usuario',
+            ],
+            'password' => [
+                'description' => 'Contraseña de usuario',
+            ],
+            'phone' => [
+                'description' => 'Teléfono móvil',
+                'example' => '52 XXXX XXXX',
+            ],
+        ];
+    }
 }

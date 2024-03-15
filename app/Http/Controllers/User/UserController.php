@@ -32,7 +32,7 @@ class UserController extends Controller
     )]
     public function filter(FilterRequest $request): AnonymousResourceCollection
     {
-        $validated = $request->validate();
+        $validated = $request->validated();
 
         return UserResponse::collection(
             User::query()

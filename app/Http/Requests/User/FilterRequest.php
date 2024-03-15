@@ -32,4 +32,27 @@ class FilterRequest extends FormRequest
             ],
         ];
     }
+
+    /**
+     * bodyParameters
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => 'Nombre de Usuario',
+            ],
+            'order_by' => [
+                'description' => 'Criterio de ordenamiento',
+                'example' => 'name, phone, id, created_at',
+            ],
+            'paginate' => [
+                'description' => 'Cantidad de elementos por página (10 por defecto)',
+            ],
+            'phone' => [
+                'description' => 'Teléfono móvil',
+                'example' => '52 XXXX XXXX',
+            ],
+        ];
+    }
 }

@@ -25,4 +25,20 @@ class LoginRequest extends FormRequest
             ],
         ];
     }
+
+    /**
+     * bodyParameters
+     */
+    public function bodyParameters()
+    {
+        return [
+            'password' => [
+                'description' => 'Contraseña de usuario',
+            ],
+            'phone' => [
+                'description' => 'Teléfono móvil',
+                'example' => '52 XXXX XXXX',
+            ],
+        ];
+    }
 }
