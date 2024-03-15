@@ -29,6 +29,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereUserId($value)
  *
+ * @property string $disk
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Media whereDisk($value)
+ *
  * @mixin \Eloquent
  */
 class Media extends Model

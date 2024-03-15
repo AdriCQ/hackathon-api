@@ -22,6 +22,7 @@ return new class extends Migration
                 MediaEnum::IMAGE->name,
                 MediaEnum::VIDEO->name,
             ]);
+            $table->string('disk')->default('public');
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('url');

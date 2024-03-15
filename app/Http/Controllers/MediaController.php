@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Enums\MediaEnum;
+use App\Http\Requests\Media\CreateRequest;
+use App\Http\Requests\Media\FilterRequest;
+use App\Http\Resources\MediaResponse;
+use App\Models\Media;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
+use Knuckles\Scribe\Attributes\Authenticated;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
+use Symfony\Component\HttpFoundation\Response;
+
+#[Group('Media')]
+#[Authenticated]
+class MediaController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    #[Endpoint('Filtrar Media')]
+    #[ResponseFromApiResource(
+        MediaResponse::class,
+        Media::class,
+        collection: true,
+        simplePaginate: 10
+    )]
+    public function index(FilterRequest $request): AnonymousResourceCollection
+    {
+        $validated = $request->validated();
+        $userId = auth()->id();
+
+        return MediaResponse::collection(
+            Media::query()
+                ->where('user_id', $userId)
+                ->when(
+                    array_key_exists('search', $validated),
+                    function (Builder $query) use ($validated) {
+                        $query->whereFullText(['name', 'description'], $validated['search']);
+                    }
+                )
+                ->orderBy(
+                    array_key_exists('order_by', $validated)
+                        ? $validated['order_by']
+                        : 'id'
+                )
+                ->simplePaginate(
+                    array_key_exists('paginate', $validated)
+                        ? $validated['paginate']
+                        : 10
+                )
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    #[Endpoint('Guardar Multimedia')]
+    #[ResponseFromApiResource(
+        MediaResponse::class,
+        Media::class
+    )]
+    public function store(CreateRequest $request): MediaResponse|JsonResponse
+    {
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
+        $validated['disk'] = config('filesystems.default');
+
+        // Upload File
+        if (array_key_exists('image', $validated)) {
+            $validated['url'] = Storage::putFile('images', $request->file('image'));
+            $validated['type'] = MediaEnum::IMAGE->name;
+        } elseif (array_key_exists('video', $validated)) {
+            $validated['url'] = Storage::putFile('videos', $request->file('video'));
+            $validated['type'] = MediaEnum::VIDEO->name;
+        } else {
+            return response()->json(['message' => 'Es necesario el campo image o video']);
+        }
+
+        unset($validated['image']);
+        unset($validated['video']);
+
+        $media = Media::create($validated);
+
+        return new MediaResponse($media);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    #[Endpoint('Mostrar Multimedia')]
+    #[ResponseFromApiResource(
+        MediaResponse::class,
+        Media::class
+    )]
+    public function show(Media $media): MediaResponse|JsonResponse
+    {
+        return auth()->id() === $media->user_id
+            ? new MediaResponse($media)
+            : response()->json(null, Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Media $media): JsonResponse
+    {
+        return auth()->id() === $media->user_id && $media->delete()
+            ? response()->json(null, Response::HTTP_OK)
+            : response()->json(null, Response::HTTP_FORBIDDEN);
+    }
+}

@@ -35,6 +35,11 @@ use Illuminate\Notifications\Notifiable;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Media> $medias
  * @property-read int|null $medias_count
+ * @property string $phone
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneVerifiedAt($value)
  *
  * @mixin \Eloquent
  */

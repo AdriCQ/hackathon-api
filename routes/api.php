@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,3 +38,7 @@ Route::prefix('users')->group(function () {
             ->name('users.filter');
     });
 });
+
+Route::apiResource('media', MediaController::class)
+    ->except(['update'])
+    ->middleware(['auth:sanctum']);
