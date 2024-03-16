@@ -18,7 +18,7 @@ class AnalisisResponse extends JsonResource
             'id' => $this->id,
             'usuario' => new UserResponse($this->whenLoaded('user')),
             'titulo' => $this->titulo,
-            'descripcion' => $this->description,
+            'descripcion' => $this->descripcion,
             'fecha_creacion' => $this->created_at,
         ];
     }

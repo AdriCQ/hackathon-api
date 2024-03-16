@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Database\Factories\AnalisisFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +39,14 @@ class Analisis extends Model
     protected $table = 'analisis_clinicos';
 
     protected $guarded = ['id'];
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): Factory
+    {
+        return AnalisisFactory::new();
+    }
 
     public function paciente(): BelongsTo
     {
