@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\UserController;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
  *	Users Routes
  * ------------------------------------------
  */
-Route::prefix('users')->group(function () {
+Route::prefix('usuarios')->group(function () {
 
     /**
      * ------------------------------------------
@@ -33,12 +34,11 @@ Route::prefix('users')->group(function () {
      *	Admin Routes
      * ------------------------------------------
      */
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::get('filter', [UserController::class, 'filter'])
-            ->name('users.filter');
-    });
+    Route::get('filtrar', [UserController::class, 'filter'])
+        ->name('users.filter');
 });
 
-Route::apiResource('media', MediaController::class)
-    ->except(['update'])
-    ->middleware(['auth:sanctum']);
+Route::apiResource('analisis', AnalisisController::class)
+    ->except(['update']);
+Route::apiResource('medias', MediaController::class)
+    ->except(['update']);

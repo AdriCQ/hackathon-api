@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\MediaEnum;
-use App\Http\Requests\Media\CreateRequest;
-use App\Http\Requests\Media\FilterRequest;
-use App\Http\Resources\MediaResponse;
-use App\Models\Media;
+use App\Http\Requests\Analisis\CreateRequest;
+use App\Http\Requests\Analisis\FilterRequest;
+use App\Http\Requests\Analisis\UpdateRequest;
+use App\Http\Resources\AnalisisResponse;
+use App\Models\Analisis;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Storage;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
@@ -18,16 +17,16 @@ use Knuckles\Scribe\Attributes\Subgroup;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Group('Analisis')]
-#[Subgroup('Multimedia')]
-class MediaController extends Controller
+#[Subgroup('Analisis')]
+class AnalisisController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    #[Endpoint('Filtrar Media')]
+    #[Endpoint('Filtrar Analisis')]
     #[ResponseFromApiResource(
-        MediaResponse::class,
-        Media::class,
+        AnalisisResponse::class,
+        Analisis::class,
         collection: true,
         simplePaginate: 10
     )]
@@ -35,9 +34,14 @@ class MediaController extends Controller
     {
         $validated = $request->validated();
 
-        return MediaResponse::collection(
-            Media::query()
+        return AnalisisResponse::collection(
+            Analisis::query()
                 ->when(
+                    array_key_exists('paciente_id', $validated),
+                    function (Builder $query) use ($validated) {
+                        $query->where('paciente_id', $validated['paciente_id']);
+                    }
+                )->when(
                     array_key_exists('search', $validated),
                     function (Builder $query) use ($validated) {
                         $query->whereFullText(['nombre', 'descripcion'], $validated['search']);
@@ -59,55 +63,53 @@ class MediaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    #[Endpoint('Guardar Multimedia')]
+    #[Endpoint('Guardar Analisis')]
     #[ResponseFromApiResource(
-        MediaResponse::class,
-        Media::class
+        AnalisisResponse::class,
+        Analisis::class
     )]
-    public function store(CreateRequest $request): MediaResponse|JsonResponse
+    public function store(CreateRequest $request): AnalisisResponse
     {
         $validated = $request->validated();
-        $validated['disk'] = config('filesystems.default');
 
-        // Upload File
-        if (array_key_exists('image', $validated)) {
-            $validated['url'] = Storage::putFile('images', $request->file('image'));
-            $validated['tipo'] = MediaEnum::IMAGE->name;
-        } elseif (array_key_exists('video', $validated)) {
-            $validated['url'] = Storage::putFile('videos', $request->file('video'));
-            $validated['tipo'] = MediaEnum::VIDEO->name;
-        } else {
-            return response()->json(['message' => 'Es necesario el campo image o video']);
-        }
+        $analisis = Analisis::create($validated);
 
-        unset($validated['image']);
-        unset($validated['video']);
-
-        $media = Media::create($validated);
-
-        return new MediaResponse($media);
+        return new AnalisisResponse($analisis);
     }
 
     /**
      * Display the specified resource.
      */
-    #[Endpoint('Mostrar Multimedia')]
+    #[Endpoint('Mostrar Analisis')]
     #[ResponseFromApiResource(
-        MediaResponse::class,
-        Media::class
+        AnalisisResponse::class,
+        Analisis::class
     )]
-    public function show(Media $media): MediaResponse|JsonResponse
+    public function show(Analisis $analisis): AnalisisResponse
     {
-        return new MediaResponse($media);
+        return new AnalisisResponse($analisis);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    #[Endpoint('Actualizar Analisis')]
+    #[ResponseFromApiResource(
+        AnalisisResponse::class,
+        Analisis::class
+    )]
+    public function update(UpdateRequest $request, Analisis $analisis): AnalisisResponse
+    {
+        return new AnalisisResponse($analisis);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Media $media): JsonResponse
+    public function destroy(Analisis $analisis): JsonResponse
     {
-        return $media->delete()
+        return $analisis->delete()
             ? response()->json(null, Response::HTTP_OK)
-            : response()->json(null, Response::HTTP_FORBIDDEN);
+            : response()->json(null, Response::HTTP_BAD_REQUEST);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Media;
 
+use App\Models\Analisis;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
@@ -14,6 +15,11 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'analisis_id' => [
+                'required',
+                'integer',
+                'exists:'.Analisis::class.',id',
+            ],
             'titulo' => [
                 'nullable',
                 'string',
@@ -40,6 +46,9 @@ class CreateRequest extends FormRequest
     public function bodyParameters()
     {
         return [
+            'analisis_id' => [
+                'description' => 'ID del analisis',
+            ],
             'titulo' => [
                 'description' => 'Título para el registro',
             ],

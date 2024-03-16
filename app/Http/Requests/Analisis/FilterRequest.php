@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Media;
+namespace App\Http\Requests\Analisis;
 
-use App\Models\Analisis;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilterRequest extends FormRequest
@@ -15,14 +15,14 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'analisis_id' => [
+            'paciente_id' => [
                 'sometimes',
                 'integer',
-                'exists:'.Analisis::class.',id',
+                'exists:'.User::class.',id',
             ],
             'order_by' => [
                 'sometimes',
-                'in:name,phone,id,created_at',
+                'in:id,created_at',
             ],
             'paginate' => [
                 'sometimes',
@@ -41,15 +41,12 @@ class FilterRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'analisis_id' => [
-                'description' => 'ID del analisis',
-            ],
             'search' => [
                 'description' => 'Criterio de búsqueda',
             ],
             'order_by' => [
                 'description' => 'Criterio de ordenamiento',
-                'example' => 'name, phone, id, created_at',
+                'example' => 'id, created_at',
             ],
             'paginate' => [
                 'description' => 'Cantidad de elementos por página (10 por defecto)',

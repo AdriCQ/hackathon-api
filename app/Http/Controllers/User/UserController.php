@@ -8,16 +8,16 @@ use App\Http\Resources\UserResponse;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
+use Knuckles\Scribe\Attributes\Subgroup;
 
 /**
  * User Controller
  */
 #[Group('Usuarios')]
-#[Authenticated]
+#[Subgroup('Usuarios')]
 class UserController extends Controller
 {
     /**
@@ -37,15 +37,17 @@ class UserController extends Controller
         return UserResponse::collection(
             User::query()
                 ->when(
-                    array_key_exists('name', $validated),
+                    array_key_exists('search', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->where('name', 'like', '%'.$validated['name'].'$');
+                        $query->where('nombre', 'like', '%'.$validated['search'].'$')
+                            ->orWhere('apellido_maternal', 'like', '%'.$validated['search'].'$')
+                            ->orWhere('apellido_paternal', 'like', '%'.$validated['search'].'$');
                     }
                 )
                 ->when(
-                    array_key_exists('phone', $validated),
+                    array_key_exists('telefono', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->where('phone', $validated['phone']);
+                        $query->where('telefono', $validated['telefono']);
                     }
                 )
                 ->orderBy(
