@@ -14,12 +14,12 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
+            'titulo' => [
+                'nullable',
                 'string',
             ],
-            'description' => [
-                'required',
+            'descripcion' => [
+                'nullable',
                 'string',
             ],
             'image' => [
@@ -40,10 +40,10 @@ class CreateRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'name' => [
+            'titulo' => [
                 'description' => 'Título para el registro',
             ],
-            'description' => [
+            'descripcion' => [
                 'description' => 'Descripción del contenido o comentarios',
             ],
             'image' => [

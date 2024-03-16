@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\UserResponse;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -48,7 +49,7 @@ class AuthController extends Controller
 
         if (
             auth()->attempt([
-                'phone' => $validated['phone'],
+                'telefono' => $validated['telefono'],
                 'password' => $validated['password'],
             ])
         ) {
@@ -70,13 +71,16 @@ class AuthController extends Controller
         UserResponse::class,
         User::class
     )]
-    public function register(LoginRequest $request): UserResponse
+    public function register(RegisterRequest $request): UserResponse
     {
         $validated = $request->validated();
 
         $user = User::create([
-            'phone' => $validated['phone'],
-            'name' => $validated['name'],
+            'nombre' => $validated['nombre'],
+            'apellido_paternal' => $validated['apellido_paternal'],
+            'apellido_maternal' => $validated['apellido_maternal'],
+            'email' => $validated['email'],
+            'telefono' => $validated['telefono'],
             'password' => bcrypt($validated['password']),
         ]);
 

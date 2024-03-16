@@ -15,11 +15,24 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'nombre' => [
                 'required',
                 'string',
             ],
-            'phone' => [
+            'apellido_paternal' => [
+                'required',
+                'string',
+            ],
+            'apellido_maternal' => [
+                'required',
+                'string',
+            ],
+            'email' => [
+                'nullable',
+                'email',
+                'unique:'.User::class.',email',
+            ],
+            'telefono' => [
                 'required',
                 'unique:'.User::class.',phone',
                 'phone',
@@ -39,13 +52,23 @@ class RegisterRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'name' => [
+            'nombre' => [
                 'description' => 'Nombre de Usuario',
+            ],
+            'apellido_paternal' => [
+                'description' => 'Apellido Paternal',
+            ],
+            'apellido_maternal' => [
+                'description' => 'Apellido Maternal',
             ],
             'password' => [
                 'description' => 'Contraseña de usuario',
             ],
-            'phone' => [
+            'email' => [
+                'description' => 'Email',
+                'example' => 'myemail@email.com',
+            ],
+            'telefono' => [
                 'description' => 'Teléfono móvil',
                 'example' => '52 XXXX XXXX',
             ],

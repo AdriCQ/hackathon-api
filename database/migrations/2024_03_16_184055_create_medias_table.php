@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\MediaEnum;
-use App\Models\User;
+use App\Models\Analisis;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,22 +15,21 @@ return new class extends Migration
     {
         Schema::create('medias', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')
-                ->constrained((new User)->getTable())
+            $table->foreignIdFor(Analisis::class, 'analisis_id')
+                ->constrained((new Analisis)->getTable())
                 ->cascadeOnDelete();
-            $table->enum('type', [
+            $table->enum('tipo', [
                 MediaEnum::IMAGE->name,
                 MediaEnum::VIDEO->name,
             ]);
             $table->string('disk')->default('public');
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('titulo')->nullable();
             $table->text('url');
             $table->timestamps();
         });
 
         Schema::table('medias', function (Blueprint $table) {
-            $table->fullText(['name', 'description']);
+            $table->fullText(['titulo']);
         });
     }
 

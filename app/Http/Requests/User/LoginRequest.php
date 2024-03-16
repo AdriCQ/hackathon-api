@@ -14,7 +14,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => [
+            'telefono' => [
                 'required',
                 'phone',
             ],
@@ -35,7 +35,7 @@ class LoginRequest extends FormRequest
             'password' => [
                 'description' => 'Contraseña de usuario',
             ],
-            'phone' => [
+            'telefono' => [
                 'description' => 'Teléfono móvil',
                 'example' => '52 XXXX XXXX',
             ],

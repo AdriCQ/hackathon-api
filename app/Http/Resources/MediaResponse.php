@@ -17,10 +17,10 @@ class MediaResponse extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'user' => new UserResponse($this->whenLoaded('user')),
-            'type' => $this->type,
+            'nombre' => $this->nombre,
+            'descripcion' => $this->descripcion,
+            'analisis' => new AnalisisResponse($this->whenLoaded('analisis')),
+            'tipo' => $this->tipo,
             'url' => filter_var($this->url, FILTER_VALIDATE_URL)
                 ? $this->url
                 : Storage::disk($this->disk)->url($this->path),

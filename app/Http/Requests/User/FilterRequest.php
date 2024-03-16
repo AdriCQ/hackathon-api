@@ -14,7 +14,7 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'search' => [
                 'sometimes',
                 'string',
             ],
@@ -22,7 +22,7 @@ class FilterRequest extends FormRequest
                 'sometimes',
                 'in:name,phone,id,created_at',
             ],
-            'phone' => [
+            'telefono' => [
                 'sometimes',
                 'phone',
             ],
@@ -39,8 +39,8 @@ class FilterRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'name' => [
-                'description' => 'Nombre de Usuario',
+            'search' => [
+                'description' => 'Busca en Nombre, Apellido Paternal y Apellido Maternal',
             ],
             'order_by' => [
                 'description' => 'Criterio de ordenamiento',
