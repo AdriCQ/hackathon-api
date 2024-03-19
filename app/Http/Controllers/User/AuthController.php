@@ -77,12 +77,14 @@ class AuthController extends Controller
 
         $user = User::create([
             'nombre' => $validated['nombre'],
-            'apellido_paternal' => $validated['apellido_paternal'],
-            'apellido_maternal' => $validated['apellido_maternal'],
+            'apellido_paterno' => $validated['apellido_paterno'],
+            'apellido_materno' => $validated['apellido_materno'],
             'email' => $validated['email'],
             'telefono' => $validated['telefono'],
             'password' => bcrypt($validated['password']),
         ]);
+
+        auth()->login($user);
 
         $token = $request->user()->createToken('auth_token');
 

@@ -79,6 +79,8 @@ class AnalisisController extends Controller
         if (! $paciente) {
             abort(Response::HTTP_BAD_REQUEST, 'El teléfono no está asociado a ningún paciente');
         }
+        unset($validated['telefono_paciente']);
+        $validated['paciente_id'] = $paciente->id;
 
         $analisis = Analisis::create($validated);
 

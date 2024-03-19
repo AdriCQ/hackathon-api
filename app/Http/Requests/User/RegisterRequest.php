@@ -19,11 +19,11 @@ class RegisterRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'apellido_paternal' => [
+            'apellido_paterno' => [
                 'required',
                 'string',
             ],
-            'apellido_maternal' => [
+            'apellido_materno' => [
                 'required',
                 'string',
             ],
@@ -34,8 +34,8 @@ class RegisterRequest extends FormRequest
             ],
             'telefono' => [
                 'required',
-                'unique:'.User::class.',phone',
-                'phone',
+                'unique:'.User::class.',telefono',
+                'string',
             ],
             'password' => [
                 'required',
@@ -55,10 +55,10 @@ class RegisterRequest extends FormRequest
             'nombre' => [
                 'description' => 'Nombre de Usuario',
             ],
-            'apellido_paternal' => [
+            'apellido_paterno' => [
                 'description' => 'Apellido Paternal',
             ],
-            'apellido_maternal' => [
+            'apellido_materno' => [
                 'description' => 'Apellido Maternal',
             ],
             'password' => [

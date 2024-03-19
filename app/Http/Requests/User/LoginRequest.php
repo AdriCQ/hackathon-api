@@ -16,7 +16,7 @@ class LoginRequest extends FormRequest
         return [
             'telefono' => [
                 'required',
-                'phone',
+                'string',
             ],
             'password' => [
                 'required',

@@ -24,7 +24,7 @@ class FilterRequest extends FormRequest
             ],
             'telefono' => [
                 'sometimes',
-                'phone',
+                'string',
             ],
             'paginate' => [
                 'sometimes',

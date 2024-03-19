@@ -39,9 +39,9 @@ class UserController extends Controller
                 ->when(
                     array_key_exists('search', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->where('nombre', 'like', '%'.$validated['search'].'$')
-                            ->orWhere('apellido_maternal', 'like', '%'.$validated['search'].'$')
-                            ->orWhere('apellido_paternal', 'like', '%'.$validated['search'].'$');
+                        $query->where('nombre', 'like', '%'.$validated['search'].'%')
+                            ->orWhere('apellido_materno', 'like', '%'.$validated['search'].'%')
+                            ->orWhere('apellido_paterno', 'like', '%'.$validated['search'].'%');
                     }
                 )
                 ->when(
