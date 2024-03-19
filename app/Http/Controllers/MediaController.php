@@ -104,6 +104,7 @@ class MediaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    #[Endpoint('Eliminar Multimedia')]
     public function destroy(Media $media): JsonResponse
     {
         return $media->delete()

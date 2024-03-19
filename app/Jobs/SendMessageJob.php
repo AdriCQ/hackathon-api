@@ -2,11 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Models\Notification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
 
 class SendMessageJob implements ShouldQueue
 {
@@ -15,7 +17,7 @@ class SendMessageJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(private readonly Notification $notification)
     {
         //
     }
@@ -25,6 +27,6 @@ class SendMessageJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $response = Http::post();
     }
 }

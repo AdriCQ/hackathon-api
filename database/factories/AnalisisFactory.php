@@ -27,6 +27,7 @@ class AnalisisFactory extends Factory
         return [
             'titulo' => fake()->realText(100),
             'descripcion' => fake()->realText(),
+            'secret' => fake()->numerify('####'),
             'created_at' => now(),
         ];
     }

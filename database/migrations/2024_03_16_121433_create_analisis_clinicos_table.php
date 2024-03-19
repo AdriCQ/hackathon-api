@@ -20,6 +20,7 @@ return new class extends Migration
 
             $table->string('titulo')->nullable();
             $table->text('descripcion')->nullable();
+            $table->string('secret', 8)->nullable();
             $table->timestamps();
         });
 

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Analisis\CreateRequest;
 use App\Http\Requests\Analisis\FilterRequest;
+use App\Http\Requests\Analisis\ShowRequest;
 use App\Http\Requests\Analisis\UpdateRequest;
 use App\Http\Resources\AnalisisResponse;
 use App\Models\Analisis;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -72,6 +74,12 @@ class AnalisisController extends Controller
     {
         $validated = $request->validated();
 
+        $paciente = User::query()->where('telefono', $validated['telefono_paciente'])->first();
+
+        if (! $paciente) {
+            abort(Response::HTTP_BAD_REQUEST, 'El teléfono no está asociado a ningún paciente');
+        }
+
         $analisis = Analisis::create($validated);
 
         return new AnalisisResponse($analisis);
@@ -85,8 +93,14 @@ class AnalisisController extends Controller
         AnalisisResponse::class,
         Analisis::class
     )]
-    public function show(Analisis $analisis): AnalisisResponse
+    public function show(ShowRequest $request, Analisis $analisis): AnalisisResponse
     {
+        $validated = $request->validated();
+
+        if ($analisis->secret != $validated['secret']) {
+            abort(Response::HTTP_BAD_REQUEST, 'El código es incorrecto');
+        }
+
         return new AnalisisResponse($analisis);
     }
 
@@ -106,6 +120,10 @@ class AnalisisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    /**
+     * Update the specified resource in storage.
+     */
+    #[Endpoint('Eliminar Analisis')]
     public function destroy(Analisis $analisis): JsonResponse
     {
         return $analisis->delete()

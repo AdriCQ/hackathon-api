@@ -15,10 +15,10 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paciente_id' => [
+            'telefono_paciente' => [
                 'required',
                 'integer',
-                'exists:'.User::class.',id',
+                'exists:'.User::class.',telefono',
             ],
             'titulo' => [
                 'required',
@@ -27,6 +27,24 @@ class CreateRequest extends FormRequest
             'descripcion' => [
                 'nullable',
                 'string',
+            ],
+        ];
+    }
+
+    /**
+     * bodyParameters
+     */
+    public function bodyParameters()
+    {
+        return [
+            'telefono_paciente' => [
+                'description' => 'Telefono del paciente',
+            ],
+            'titulo' => [
+                'description' => 'Título para el registro',
+            ],
+            'descripcion' => [
+                'description' => 'Descripción del contenido o comentarios',
             ],
         ];
     }
