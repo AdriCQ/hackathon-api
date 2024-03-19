@@ -46,7 +46,7 @@ class AnalisisController extends Controller
                 )->when(
                     array_key_exists('search', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->whereFullText(['nombre', 'descripcion'], $validated['search']);
+                        $query->whereFullText(['titulo', 'descripcion'], $validated['search']);
                     }
                 )
                 ->orderBy(
