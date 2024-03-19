@@ -17,7 +17,7 @@ class MediaResponse extends JsonResource
     {
         return [
             'id' => $this->id,
-            'nombre' => $this->nombre,
+            'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
             'analisis' => new AnalisisResponse($this->whenLoaded('analisis')),
             'tipo' => $this->tipo,

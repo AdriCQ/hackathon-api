@@ -15,10 +15,10 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paciente_id' => [
+            'telefono_paciente' => [
                 'sometimes',
-                'integer',
-                'exists:'.User::class.',id',
+                'string',
+                'exists:'.User::class.',telefono',
             ],
             'order_by' => [
                 'sometimes',
@@ -29,7 +29,7 @@ class FilterRequest extends FormRequest
                 'integer',
             ],
             'search' => [
-                'required',
+                'sometimes',
                 'string',
             ],
         ];

@@ -39,9 +39,12 @@ class AnalisisController extends Controller
         return AnalisisResponse::collection(
             Analisis::query()
                 ->when(
-                    array_key_exists('paciente_id', $validated),
+                    array_key_exists('telefono_paciente', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->where('paciente_id', $validated['paciente_id']);
+                        $query->whereHas('paciente',
+                            function (Builder $query) use ($validated) {
+                                $query->where('telefono', $validated['telefono_paciente']);
+                            });
                     }
                 )->when(
                     array_key_exists('search', $validated),
