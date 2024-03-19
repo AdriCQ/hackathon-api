@@ -14,16 +14,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $tipo
  * @property string $disk
  * @property string|null $titulo
+ * @property string|null $descripcion
  * @property string $url
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Analisis $analisis
  *
+ * @method static \Database\Factories\MediaFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Media newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Media newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Media query()
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereAnalisisId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Media whereDescripcion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereDisk($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereTipo($value)

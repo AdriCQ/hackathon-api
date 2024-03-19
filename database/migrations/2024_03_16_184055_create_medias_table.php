@@ -24,6 +24,7 @@ return new class extends Migration
             ]);
             $table->string('disk')->default('public');
             $table->string('titulo')->nullable();
+            $table->text('descripcion')->nullable();
             $table->text('url');
             $table->timestamps();
         });

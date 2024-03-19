@@ -20,6 +20,7 @@ class AnalisisResponse extends JsonResource
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
             'fecha_creacion' => $this->created_at,
+            'media' => MediaResponse::collection($this->multimedias),
         ];
     }
 }

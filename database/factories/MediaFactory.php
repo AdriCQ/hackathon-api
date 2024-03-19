@@ -28,12 +28,14 @@ class MediaFactory extends Factory
         return [
             'titulo' => fake()->realText(100),
             'descripcion' => fake()->realText(),
-            'tipo' => fake()->randomElement([
-                MediaEnum::IMAGE->name,
-                MediaEnum::VIDEO->name,
-            ]),
+            'tipo' => MediaEnum::VIDEO->name,
             'disk' => 'public',
-            'url' => fake()->url(),
+            'url' => fake()->randomElement([
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+            ]),
         ];
     }
 }
