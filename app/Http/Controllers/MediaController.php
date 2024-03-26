@@ -70,11 +70,20 @@ class MediaController extends Controller
         $validated['disk'] = config('filesystems.default');
 
         // Upload File
-        if (array_key_exists('image', $validated)) {
+        if (array_key_exists('image', $validated) && ! is_null($validated['image'])) {
+            $file = $request->file('image');
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
             $validated['url'] = Storage::putFile('images', $request->file('image'));
             $validated['tipo'] = MediaEnum::IMAGE->name;
-        } elseif (array_key_exists('video', $validated)) {
+            // $validated['url'] = 'images/'.  $name.'.'.$extension;
+
+        } elseif (array_key_exists('video', $validated) && ! is_null($validated['video'])) {
+            $file = $request->file('video');
+            $name = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
             $validated['url'] = Storage::putFile('videos', $request->file('video'));
+            // $validated['url'] = 'video/'.  $name.'.'.$extension;
             $validated['tipo'] = MediaEnum::VIDEO->name;
         } else {
             return response()->json(['message' => 'Es necesario el campo image o video']);

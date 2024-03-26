@@ -23,7 +23,7 @@ class MediaResponse extends JsonResource
             'tipo' => $this->tipo,
             'url' => filter_var($this->url, FILTER_VALIDATE_URL)
                 ? $this->url
-                : Storage::disk($this->disk)->url($this->path),
+                : Storage::disk($this->disk)->url($this->url),
         ];
     }
 }

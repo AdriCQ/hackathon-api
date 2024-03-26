@@ -16,8 +16,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'analisis_id' => [
-                'required',
-                'integer',
+                'nullable',
                 'exists:'.Analisis::class.',id',
             ],
             'titulo' => [
@@ -29,11 +28,11 @@ class CreateRequest extends FormRequest
                 'string',
             ],
             'image' => [
-                'sometimes',
+                'nullable',
                 'image',
             ],
             'video' => [
-                'sometimes',
+                'nullable',
                 'file',
                 'mimetypes:video/*',
             ],
