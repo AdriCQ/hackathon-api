@@ -21,9 +21,7 @@ class MediaResponse extends JsonResource
             'descripcion' => $this->descripcion,
             'analisis' => new AnalisisResponse($this->whenLoaded('analisis')),
             'tipo' => $this->tipo,
-            'url' => filter_var($this->url, FILTER_VALIDATE_URL)
-                ? $this->url
-                : Storage::disk($this->disk)->url($this->url),
+            'url' => Storage::disk($this->disk)->url($this->url),
         ];
     }
 }

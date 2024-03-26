@@ -29,7 +29,7 @@ class FilterRequest extends FormRequest
                 'integer',
             ],
             'search' => [
-                'required',
+                'sometimes',
                 'string',
             ],
         ];

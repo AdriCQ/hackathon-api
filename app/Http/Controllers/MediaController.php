@@ -42,6 +42,11 @@ class MediaController extends Controller
                     function (Builder $query) use ($validated) {
                         $query->whereFullText(['nombre', 'descripcion'], $validated['search']);
                     }
+                )->when(
+                    array_key_exists('analisis_id', $validated),
+                    function (Builder $query) use ($validated) {
+                        $query->where('analisis_id', $validated['analisis_id']);
+                    }
                 )
                 ->orderBy(
                     array_key_exists('order_by', $validated)

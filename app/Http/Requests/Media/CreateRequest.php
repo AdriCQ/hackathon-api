@@ -34,7 +34,7 @@ class CreateRequest extends FormRequest
             'video' => [
                 'nullable',
                 'file',
-                'mimetypes:video/*',
+
             ],
         ];
     }
