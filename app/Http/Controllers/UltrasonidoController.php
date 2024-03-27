@@ -104,7 +104,7 @@ class UltrasonidoController extends Controller
         UltrasonidoResponse::class,
         Ultrasonido::class
     )]
-    public function store(CreateWithMedia $request): UltrasonidoResponse
+    public function store(CreateWithMedia $request): UltrasonidoResponse|JsonResponse
     {
         $validated = $request->validated();
 
@@ -119,12 +119,12 @@ class UltrasonidoController extends Controller
         $ultrasonido = Ultrasonido::create($validated);
         $medias = [];
 
-        if (array_key_exists('videos', $validated)) {
+        if ($request->hasFile('videos')) {
             foreach ($request->file('videos') as $file) {
                 // Upload File
                 $url = Storage::putFile('videos', $file);
                 $medias[] = new Media([
-                    'type' => MediaEnum::VIDEO->name,
+                    'tipo' => MediaEnum::VIDEO->name,
                     'titulo' => $ultrasonido->titulo,
                     'descripcion' => $ultrasonido->descripcion,
                     'url' => $url,
@@ -132,12 +132,13 @@ class UltrasonidoController extends Controller
                 ]);
             }
         }
-        if (array_key_exists('images', $validated)) {
+        if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
+
                 // Upload File
                 $url = Storage::putFile('images', $file);
                 $medias[] = new Media([
-                    'type' => MediaEnum::IMAGE->name,
+                    'tipo' => MediaEnum::IMAGE->name,
                     'titulo' => $ultrasonido->titulo,
                     'descripcion' => $ultrasonido->descripcion,
                     'url' => $url,
