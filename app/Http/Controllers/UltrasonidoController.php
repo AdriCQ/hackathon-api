@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MediaEnum;
 use App\Http\Requests\Ultrasonido\CreateRequest;
+use App\Http\Requests\Ultrasonido\CreateWithMedia;
 use App\Http\Requests\Ultrasonido\FilterRequest;
 use App\Http\Requests\Ultrasonido\ShowRequest;
 use App\Http\Requests\Ultrasonido\UpdateRequest;
 use App\Http\Resources\UltrasonidoResponse;
+use App\Models\Media;
 use App\Models\Ultrasonido;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
@@ -75,7 +79,7 @@ class UltrasonidoController extends Controller
         UltrasonidoResponse::class,
         Ultrasonido::class
     )]
-    public function store(CreateRequest $request): UltrasonidoResponse
+    public function storeOne(CreateRequest $request): UltrasonidoResponse
     {
         $validated = $request->validated();
 
@@ -88,6 +92,64 @@ class UltrasonidoController extends Controller
         $validated['paciente_id'] = $paciente->id;
 
         $ultrasonido = Ultrasonido::create($validated);
+
+        return new UltrasonidoResponse($ultrasonido);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    #[Endpoint('Guardar Ultrasonido con Multimedia')]
+    #[ResponseFromApiResource(
+        UltrasonidoResponse::class,
+        Ultrasonido::class
+    )]
+    public function store(CreateWithMedia $request): UltrasonidoResponse
+    {
+        $validated = $request->validated();
+
+        $paciente = User::query()->where('telefono', $validated['telefono_paciente'])->first();
+
+        if (! $paciente) {
+            abort(Response::HTTP_BAD_REQUEST, 'El teléfono no está asociado a ningún paciente');
+        }
+        unset($validated['telefono_paciente']);
+        $validated['paciente_id'] = $paciente->id;
+
+        $ultrasonido = Ultrasonido::create($validated);
+        $medias = [];
+
+        if (array_key_exists('videos', $validated)) {
+            foreach ($request->file('videos') as $file) {
+                // Upload File
+                $url = Storage::putFile('videos', $file);
+                $medias[] = new Media([
+                    'type' => MediaEnum::VIDEO->name,
+                    'titulo' => $ultrasonido->titulo,
+                    'descripcion' => $ultrasonido->descripcion,
+                    'url' => $url,
+                    'disk' => config('filesystems.default'),
+                ]);
+            }
+        }
+        if (array_key_exists('images', $validated)) {
+            foreach ($request->file('images') as $file) {
+                // Upload File
+                $url = Storage::putFile('images', $file);
+                $medias[] = new Media([
+                    'type' => MediaEnum::IMAGE->name,
+                    'titulo' => $ultrasonido->titulo,
+                    'descripcion' => $ultrasonido->descripcion,
+                    'url' => $url,
+                    'disk' => config('filesystems.default'),
+                ]);
+            }
+        }
+
+        if (count($medias)) {
+            $ultrasonido->multimedias()->saveMany($medias);
+            $ultrasonido->multimedias;
+        }
 
         return new UltrasonidoResponse($ultrasonido);
     }
@@ -121,6 +183,9 @@ class UltrasonidoController extends Controller
     )]
     public function update(UpdateRequest $request, Ultrasonido $ultrasonido): UltrasonidoResponse
     {
+        $validated = $request->validated();
+        $ultrasonido->update($validated);
+
         return new UltrasonidoResponse($ultrasonido);
     }
 

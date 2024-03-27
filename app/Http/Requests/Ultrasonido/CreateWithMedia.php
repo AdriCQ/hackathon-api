@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Media;
+namespace App\Http\Requests\Ultrasonido;
 
-use App\Models\Ultrasonido;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class CreateWithMedia extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,24 +15,33 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ultrasonido_id' => [
-                'nullable',
-                'exists:'.Ultrasonido::class.',id',
+            'telefono_paciente' => [
+                'required',
+                'integer',
+                'exists:'.User::class.',telefono',
             ],
             'titulo' => [
-                'nullable',
+                'required',
                 'string',
             ],
             'descripcion' => [
                 'nullable',
                 'string',
             ],
-            'image' => [
-                'nullable',
+            'images' => [
+                'sometimes',
+                'array',
+            ],
+            'images.*' => [
+                'required',
                 'image',
             ],
-            'video' => [
-                'nullable',
+            'videos' => [
+                'sometimes',
+                'array',
+            ],
+            'videos.*' => [
+                'required',
                 'file',
                 'mimetypes:video/*',
             ],
@@ -45,20 +54,14 @@ class CreateRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'ultrasonido_id' => [
-                'description' => 'ID del ultrasonido',
+            'telefono_paciente' => [
+                'description' => 'Telefono del paciente',
             ],
             'titulo' => [
                 'description' => 'Título para el registro',
             ],
             'descripcion' => [
                 'description' => 'Descripción del contenido o comentarios',
-            ],
-            'image' => [
-                'description' => 'Fichero de tipo Imagen a almacenar',
-            ],
-            'video' => [
-                'description' => 'Fichero de tipo Video a almacenar',
             ],
         ];
     }
