@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Media;
 
-use App\Models\Analisis;
+use App\Models\Ultrasonido;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
@@ -15,9 +15,9 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'analisis_id' => [
+            'ultrasonido_id' => [
                 'nullable',
-                'exists:'.Analisis::class.',id',
+                'exists:'.Ultrasonido::class.',id',
             ],
             'titulo' => [
                 'nullable',
@@ -45,8 +45,8 @@ class CreateRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'analisis_id' => [
-                'description' => 'ID del analisis',
+            'ultrasonido_id' => [
+                'description' => 'ID del ultrasonido',
             ],
             'titulo' => [
                 'description' => 'Título para el registro',

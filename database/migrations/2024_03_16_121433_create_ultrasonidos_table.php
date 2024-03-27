@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('analisis_clinicos', function (Blueprint $table) {
+        Schema::create('ultrasonidos', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'paciente_id')
                 ->constrained((new User)->getTable())
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::table('analisis_clinicos', function (Blueprint $table) {
+        Schema::table('ultrasonidos', function (Blueprint $table) {
             $table->fullText(['titulo', 'descripcion']);
         });
     }
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('analisis_clinicos');
+        Schema::dropIfExists('ultrasonidos');
     }
 };

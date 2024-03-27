@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\UltrasonidoController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +38,7 @@ Route::prefix('usuarios')->group(function () {
         ->name('users.filter');
 });
 
-Route::apiResource('analisis', AnalisisController::class)
+Route::apiResource('ultrasonidos', UltrasonidoController::class)
     ->except(['update']);
 Route::apiResource('medias', MediaController::class)
     ->except(['update']);

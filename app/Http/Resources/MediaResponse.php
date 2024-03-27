@@ -19,7 +19,7 @@ class MediaResponse extends JsonResource
             'id' => $this->id,
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
-            'analisis' => new AnalisisResponse($this->whenLoaded('analisis')),
+            'ultrasonido' => new UltrasonidoResponse($this->whenLoaded('ultrasonido')),
             'tipo' => $this->tipo,
             'url' => Storage::disk($this->disk)->url($this->url),
         ];

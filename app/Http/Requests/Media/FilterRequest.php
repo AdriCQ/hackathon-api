@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Media;
 
-use App\Models\Analisis;
+use App\Models\Ultrasonido;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilterRequest extends FormRequest
@@ -15,10 +15,10 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'analisis_id' => [
+            'ultrasonido_id' => [
                 'sometimes',
                 'integer',
-                'exists:'.Analisis::class.',id',
+                'exists:'.Ultrasonido::class.',id',
             ],
             'order_by' => [
                 'sometimes',
@@ -41,8 +41,8 @@ class FilterRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'analisis_id' => [
-                'description' => 'ID del analisis',
+            'ultrasonido_id' => [
+                'description' => 'ID del Ultrasonido',
             ],
             'search' => [
                 'description' => 'Criterio de búsqueda',

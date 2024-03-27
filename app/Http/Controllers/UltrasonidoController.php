@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Analisis\CreateRequest;
-use App\Http\Requests\Analisis\FilterRequest;
-use App\Http\Requests\Analisis\ShowRequest;
-use App\Http\Requests\Analisis\UpdateRequest;
-use App\Http\Resources\AnalisisResponse;
-use App\Models\Analisis;
+use App\Http\Requests\Ultrasonido\CreateRequest;
+use App\Http\Requests\Ultrasonido\FilterRequest;
+use App\Http\Requests\Ultrasonido\ShowRequest;
+use App\Http\Requests\Ultrasonido\UpdateRequest;
+use App\Http\Resources\UltrasonidoResponse;
+use App\Models\Ultrasonido;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -19,16 +19,16 @@ use Knuckles\Scribe\Attributes\Subgroup;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Group('Analisis')]
-#[Subgroup('Analisis')]
-class AnalisisController extends Controller
+#[Subgroup('Ultrasonidos')]
+class UltrasonidoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    #[Endpoint('Filtrar Analisis')]
+    #[Endpoint('Filtrar Ultrasonidos')]
     #[ResponseFromApiResource(
-        AnalisisResponse::class,
-        Analisis::class,
+        UltrasonidoResponse::class,
+        Ultrasonido::class,
         collection: true,
         simplePaginate: 10
     )]
@@ -36,15 +36,17 @@ class AnalisisController extends Controller
     {
         $validated = $request->validated();
 
-        return AnalisisResponse::collection(
-            Analisis::query()
+        return UltrasonidoResponse::collection(
+            Ultrasonido::query()
                 ->when(
                     array_key_exists('telefono_paciente', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->whereHas('paciente',
+                        $query->whereHas(
+                            'paciente',
                             function (Builder $query) use ($validated) {
                                 $query->where('telefono', $validated['telefono_paciente']);
-                            });
+                            }
+                        );
                     }
                 )->when(
                     array_key_exists('search', $validated),
@@ -68,12 +70,12 @@ class AnalisisController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    #[Endpoint('Guardar Analisis')]
+    #[Endpoint('Guardar Ultrasonido')]
     #[ResponseFromApiResource(
-        AnalisisResponse::class,
-        Analisis::class
+        UltrasonidoResponse::class,
+        Ultrasonido::class
     )]
-    public function store(CreateRequest $request): AnalisisResponse
+    public function store(CreateRequest $request): UltrasonidoResponse
     {
         $validated = $request->validated();
 
@@ -85,41 +87,41 @@ class AnalisisController extends Controller
         unset($validated['telefono_paciente']);
         $validated['paciente_id'] = $paciente->id;
 
-        $analisis = Analisis::create($validated);
+        $ultrasonido = Ultrasonido::create($validated);
 
-        return new AnalisisResponse($analisis);
+        return new UltrasonidoResponse($ultrasonido);
     }
 
     /**
      * Display the specified resource.
      */
-    #[Endpoint('Mostrar Analisis')]
+    #[Endpoint('Mostrar Ultrasonido')]
     #[ResponseFromApiResource(
-        AnalisisResponse::class,
-        Analisis::class
+        UltrasonidoResponse::class,
+        Ultrasonido::class
     )]
-    public function show(ShowRequest $request, Analisis $analisis): AnalisisResponse
+    public function show(ShowRequest $request, Ultrasonido $ultrasonido): UltrasonidoResponse
     {
         $validated = $request->validated();
 
-        if ($analisis->secret != $validated['secret']) {
+        if ($ultrasonido->secret != $validated['secret']) {
             abort(Response::HTTP_BAD_REQUEST, 'El código es incorrecto');
         }
 
-        return new AnalisisResponse($analisis);
+        return new UltrasonidoResponse($ultrasonido);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    #[Endpoint('Actualizar Analisis')]
+    #[Endpoint('Actualizar Ultrasonido')]
     #[ResponseFromApiResource(
-        AnalisisResponse::class,
-        Analisis::class
+        UltrasonidoResponse::class,
+        Ultrasonido::class
     )]
-    public function update(UpdateRequest $request, Analisis $analisis): AnalisisResponse
+    public function update(UpdateRequest $request, Ultrasonido $ultrasonido): UltrasonidoResponse
     {
-        return new AnalisisResponse($analisis);
+        return new UltrasonidoResponse($ultrasonido);
     }
 
     /**
@@ -128,10 +130,10 @@ class AnalisisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[Endpoint('Eliminar Analisis')]
-    public function destroy(Analisis $analisis): JsonResponse
+    #[Endpoint('Eliminar Ultrasonido')]
+    public function destroy(Ultrasonido $ultrasonido): JsonResponse
     {
-        return $analisis->delete()
+        return $ultrasonido->delete()
             ? response()->json(null, Response::HTTP_OK)
             : response()->json(null, Response::HTTP_BAD_REQUEST);
     }

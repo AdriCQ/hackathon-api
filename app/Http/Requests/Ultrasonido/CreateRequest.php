@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Analisis;
+namespace App\Http\Requests\Ultrasonido;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;

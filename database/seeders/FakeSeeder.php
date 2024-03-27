@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Analisis;
 use App\Models\Media;
+use App\Models\Ultrasonido;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,14 +17,14 @@ class FakeSeeder extends Seeder
         User::factory()
             ->count(10)
             ->has(
-                Analisis::factory()
+                Ultrasonido::factory()
                     ->count(3)
                     ->has(
                         Media::factory()
                             ->count(2),
                         'multimedias'
                     ),
-                'analisis'
+                'ultrasonidos'
             )
             ->create();
     }

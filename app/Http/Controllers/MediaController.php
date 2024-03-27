@@ -43,9 +43,9 @@ class MediaController extends Controller
                         $query->whereFullText(['nombre', 'descripcion'], $validated['search']);
                     }
                 )->when(
-                    array_key_exists('analisis_id', $validated),
+                    array_key_exists('ultrasonido_id', $validated),
                     function (Builder $query) use ($validated) {
-                        $query->where('analisis_id', $validated['analisis_id']);
+                        $query->where('ultrasonido_id', $validated['ultrasonido_id']);
                     }
                 )
                 ->orderBy(
@@ -77,18 +77,11 @@ class MediaController extends Controller
         // Upload File
         if (array_key_exists('image', $validated) && ! is_null($validated['image'])) {
             $file = $request->file('image');
-            $name = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
             $validated['url'] = Storage::putFile('images', $request->file('image'));
             $validated['tipo'] = MediaEnum::IMAGE->name;
-            // $validated['url'] = 'images/'.  $name.'.'.$extension;
-
         } elseif (array_key_exists('video', $validated) && ! is_null($validated['video'])) {
             $file = $request->file('video');
-            $name = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
             $validated['url'] = Storage::putFile('videos', $request->file('video'));
-            // $validated['url'] = 'video/'.  $name.'.'.$extension;
             $validated['tipo'] = MediaEnum::VIDEO->name;
         } else {
             return response()->json(['message' => 'Es necesario el campo image o video']);

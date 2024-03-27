@@ -2,20 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Analisis;
+use App\Models\Ultrasonido;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Analisis>
- */
-class AnalisisFactory extends Factory
+class UltrasonidoFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<\Illuminate\Database\Eloquent\Model>
      */
-    protected $model = Analisis::class;
+    protected $model = Ultrasonido::class;
 
     /**
      * Define the model's default state.
