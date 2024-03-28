@@ -38,7 +38,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'telefono_paciente' => [
-                'description' => 'Telefono del paciente',
+                'description' => 'Teléfono del paciente',
             ],
             'titulo' => [
                 'description' => 'Título para el registro',

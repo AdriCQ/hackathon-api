@@ -41,6 +41,9 @@ class FilterRequest extends FormRequest
     public function bodyParameters()
     {
         return [
+            'telefono_paciente' => [
+                'description' => 'Teléfono del paciente',
+            ],
             'search' => [
                 'description' => 'Criterio de búsqueda',
             ],

@@ -55,13 +55,19 @@ class CreateWithMedia extends FormRequest
     {
         return [
             'telefono_paciente' => [
-                'description' => 'Telefono del paciente',
+                'description' => 'Teléfono del paciente',
             ],
             'titulo' => [
                 'description' => 'Título para el registro',
             ],
             'descripcion' => [
                 'description' => 'Descripción del contenido o comentarios',
+            ],
+            'images' => [
+                'description' => 'Conjunto de imágenes',
+            ],
+            'videos' => [
+                'description' => 'Conjunto de videos',
             ],
         ];
     }
