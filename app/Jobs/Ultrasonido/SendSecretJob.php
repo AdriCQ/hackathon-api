@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Http;
 
 class SendSecretJob implements ShouldQueue
 {
@@ -28,16 +27,37 @@ class SendSecretJob implements ShouldQueue
     public function handle(): void
     {
         $paciente = $this->ultrasonido->paciente;
-        $n8nHook = 'https://umss-n8n.terio.xyz/webhook/02a70849-f8b9-446c-95c7-985b8cee1ae8';
+        $url = 'https://umss-n8n.terio.xyz/webhook/02a70849-f8b9-446c-95c7-985b8cee1ae8';
 
-        $data = [
+        $params = [
             'secret' => 'QY^XvzoTM7*UqZ%33vAQTi&JJM%k',
             'phone' => $paciente->telefono,
             'url' => config('app.url'),
             'name' => $paciente->nombre,
-            'pin' => $this->ultrasonido->secret,
+            'pin' => (int) $this->ultrasonido->secret,
         ];
 
-        Http::post($n8nHook, $data);
+        $encodeParams = json_encode($params);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_POSTFIELDS => $encodeParams,
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+            ],
+        ]);
+
+        curl_exec($curl);
+
+        curl_close($curl);
     }
 }
