@@ -9,6 +9,7 @@ use App\Http\Requests\Ultrasonido\FilterRequest;
 use App\Http\Requests\Ultrasonido\ShowRequest;
 use App\Http\Requests\Ultrasonido\UpdateRequest;
 use App\Http\Resources\UltrasonidoResponse;
+use App\Jobs\Ultrasonido\SendSecretJob;
 use App\Models\Media;
 use App\Models\Ultrasonido;
 use App\Models\User;
@@ -90,8 +91,11 @@ class UltrasonidoController extends Controller
         }
         unset($validated['telefono_paciente']);
         $validated['paciente_id'] = $paciente->id;
+        $validated['secret'] = random_int(1000, 9999);
 
         $ultrasonido = Ultrasonido::create($validated);
+
+        SendSecretJob::dispatch($ultrasonido);
 
         return new UltrasonidoResponse($ultrasonido);
     }
@@ -115,6 +119,7 @@ class UltrasonidoController extends Controller
         }
         unset($validated['telefono_paciente']);
         $validated['paciente_id'] = $paciente->id;
+        $validated['secret'] = random_int(1000, 9999);
 
         $ultrasonido = Ultrasonido::create($validated);
         $medias = [];
@@ -151,6 +156,8 @@ class UltrasonidoController extends Controller
             $ultrasonido->multimedias()->saveMany($medias);
             $ultrasonido->multimedias;
         }
+
+        SendSecretJob::dispatch($ultrasonido);
 
         return new UltrasonidoResponse($ultrasonido);
     }
