@@ -10,7 +10,9 @@ use App\Models\Media;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
+use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
@@ -19,8 +21,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[Group('Analisis')]
 #[Subgroup('Multimedia')]
+#[Authenticated]
 class MediaController extends Controller
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware(['auth:sanctum', 'admin']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -8,6 +8,8 @@ use App\Http\Resources\UserResponse;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Routing\Controllers\Middleware;
+use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
@@ -18,8 +20,16 @@ use Knuckles\Scribe\Attributes\Subgroup;
  */
 #[Group('Usuarios')]
 #[Subgroup('Usuarios')]
+#[Authenticated]
 class UserController extends Controller
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware(['auth:sanctum', 'admin']),
+        ];
+    }
+
     /**
      * Filtrar Usuarios
      */

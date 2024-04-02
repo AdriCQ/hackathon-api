@@ -13,10 +13,12 @@ use App\Jobs\Ultrasonido\SendSecretJob;
 use App\Models\Media;
 use App\Models\Ultrasonido;
 use App\Models\User;
+use GuzzleHttp\Middleware;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Storage;
+use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
@@ -25,8 +27,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[Group('Analisis')]
 #[Subgroup('Ultrasonidos')]
+#[Authenticated]
 class UltrasonidoController extends Controller
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware(['auth:sanctum', 'admin']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
