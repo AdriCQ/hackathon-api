@@ -13,7 +13,6 @@ use App\Jobs\Ultrasonido\SendSecretJob;
 use App\Models\Media;
 use App\Models\Ultrasonido;
 use App\Models\User;
-use GuzzleHttp\Middleware;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -30,13 +29,6 @@ use Symfony\Component\HttpFoundation\Response;
 #[Authenticated]
 class UltrasonidoController extends Controller
 {
-    public static function middleware()
-    {
-        return [
-            new Middleware(['auth:sanctum', 'admin']),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */

@@ -8,7 +8,6 @@ use App\Http\Requests\User\RegisterRequest;
 use App\Http\Resources\UserResponse;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\Controllers\Middleware;
 use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
@@ -20,13 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 #[Subgroup('Autenticación')]
 class AuthController extends Controller
 {
-    public static function middleware()
-    {
-        return [
-            new Middleware(['auth:sanctum'], ['currentUser']),
-        ];
-    }
-
     /**
      * Usuario Actual
      */
