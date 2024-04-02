@@ -14,6 +14,10 @@ class FakeSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            DatabaseSeeder::class,
+        ]);
+
         User::factory()
             ->count(10)
             ->has(
