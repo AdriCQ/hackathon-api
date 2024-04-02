@@ -16,7 +16,7 @@ class UltrasonidoResponse extends JsonResource
     {
         return [
             'id' => $this->id,
-            'usuario' => new UserResponse($this->whenLoaded('user')),
+            'paciente' => new UserResponse($this->whenLoaded('paciente')),
             'titulo' => $this->titulo,
             'descripcion' => $this->descripcion,
             'fecha_creacion' => $this->created_at,

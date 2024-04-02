@@ -159,6 +159,9 @@ class UltrasonidoController extends Controller
             $ultrasonido->multimedias;
         }
 
+        // Cast paciente
+        $ultrasonido->paciente;
+
         SendSecretJob::dispatch($ultrasonido);
 
         return new UltrasonidoResponse($ultrasonido);
@@ -179,6 +182,9 @@ class UltrasonidoController extends Controller
         if ($ultrasonido->secret != $validated['secret']) {
             abort(Response::HTTP_BAD_REQUEST, 'El código es incorrecto');
         }
+
+        // Cast paciente
+        $ultrasonido->paciente;
 
         return new UltrasonidoResponse($ultrasonido);
     }
