@@ -190,6 +190,22 @@ class UltrasonidoController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    #[Endpoint('Mostrar Ultrasonido (Inseguro)')]
+    #[ResponseFromApiResource(
+        UltrasonidoResponse::class,
+        Ultrasonido::class
+    )]
+    public function showInsecure(Ultrasonido $ultrasonido): UltrasonidoResponse
+    {
+        // Cast
+        $ultrasonido->paciente;
+
+        return new UltrasonidoResponse($ultrasonido);
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     #[Endpoint('Actualizar Ultrasonido')]

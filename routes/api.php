@@ -38,6 +38,8 @@ Route::prefix('usuarios')->group(function () {
         ->name('users.filter');
 });
 
+Route::get('ultrasonido-inseguro/{ultrasonido}', [UltrasonidoController::class, 'showInsecure']);
+
 Route::apiResource('ultrasonidos', UltrasonidoController::class)
     ->except(['update']);
 Route::apiResource('medias', MediaController::class)
