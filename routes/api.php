@@ -38,7 +38,7 @@ Route::prefix('usuarios')->group(function () {
         ->name('users.filter');
 });
 
-Route::get('ultrasonido-inseguro/{ultrasonido}', [UltrasonidoController::class, 'showInsecure']);
+Route::get('ultrasonido-simple/{ultrasonido}', [UltrasonidoController::class, 'showInsecure']);
 
 Route::apiResource('ultrasonidos', UltrasonidoController::class)
     ->except(['update']);

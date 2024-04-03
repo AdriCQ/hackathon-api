@@ -192,7 +192,7 @@ class UltrasonidoController extends Controller
     /**
      * Display the specified resource.
      */
-    #[Endpoint('Mostrar Ultrasonido (Inseguro)')]
+    #[Endpoint('Mostrar Ultrasonido (Simple)')]
     #[ResponseFromApiResource(
         UltrasonidoResponse::class,
         Ultrasonido::class
