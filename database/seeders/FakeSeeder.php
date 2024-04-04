@@ -22,10 +22,10 @@ class FakeSeeder extends Seeder
             ->count(10)
             ->has(
                 Ultrasonido::factory()
-                    ->count(3)
+                    ->count(5)
                     ->has(
                         Media::factory()
-                            ->count(2),
+                            ->count(10),
                         'multimedias'
                     ),
                 'ultrasonidos'
