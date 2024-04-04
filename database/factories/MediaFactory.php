@@ -25,17 +25,26 @@ class MediaFactory extends Factory
      */
     public function definition(): array
     {
+        $type = fake()->randomElement([
+            MediaEnum::IMAGE->name,
+            MediaEnum::VIDEO->name,
+        ]);
+
+        $url = $type === MediaEnum::VIDEO
+            ? fake()->randomElement([
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+            ])
+            : fake()->imageUrl;
+
         return [
             'titulo' => fake()->realText(100),
             'descripcion' => fake()->realText(),
             'tipo' => MediaEnum::VIDEO->name,
             'disk' => 'public',
-            'url' => fake()->randomElement([
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-            ]),
+            'url' => $url,
         ];
     }
 }
