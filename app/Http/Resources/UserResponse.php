@@ -21,6 +21,7 @@ class UserResponse extends JsonResource
             'apellido_materno' => $this->apellido_materno,
             'telefono' => $this->telefono,
             'email' => $this->email,
+            'fecha_nacimiento' => $this->fecha_nacimiento,
         ];
     }
 }
