@@ -93,7 +93,8 @@ class UltrasonidoController extends Controller
         }
         unset($validated['telefono_paciente']);
         $validated['paciente_id'] = $paciente->id;
-        $validated['secret'] = random_int(1000, 9999);
+        // $validated['secret'] = random_int(1000, 9999);
+        $validated['secret'] = $paciente->fecha_nacimiento;
 
         $ultrasonido = Ultrasonido::create($validated);
 
@@ -121,7 +122,7 @@ class UltrasonidoController extends Controller
         }
         unset($validated['telefono_paciente']);
         $validated['paciente_id'] = $paciente->id;
-        $validated['secret'] = random_int(1000, 9999);
+        $validated['secret'] = $paciente->fecha_nacimiento;
 
         $ultrasonido = Ultrasonido::create($validated);
         $medias = [];
