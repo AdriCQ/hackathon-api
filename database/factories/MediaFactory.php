@@ -30,7 +30,7 @@ class MediaFactory extends Factory
             MediaEnum::VIDEO->name,
         ]);
 
-        $url = $type === MediaEnum::VIDEO
+        $url = $type === MediaEnum::VIDEO->name
             ? fake()->randomElement([
                 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
                 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
@@ -42,7 +42,7 @@ class MediaFactory extends Factory
         return [
             'titulo' => fake()->realText(100),
             'descripcion' => fake()->realText(),
-            'tipo' => MediaEnum::VIDEO->name,
+            'tipo' => $type,
             'disk' => 'public',
             'url' => $url,
         ];
