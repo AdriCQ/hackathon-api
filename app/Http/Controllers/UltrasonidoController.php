@@ -178,8 +178,9 @@ class UltrasonidoController extends Controller
     public function show(ShowRequest $request, Ultrasonido $ultrasonido): UltrasonidoResponse
     {
         $validated = $request->validated();
+        $paciente = $ultrasonido->paciente;
 
-        if ($ultrasonido->secret != $validated['secret']) {
+        if ($paciente->fecha_nacimiento != $validated['secret']) {
             abort(Response::HTTP_BAD_REQUEST, 'El código es incorrecto');
         }
 

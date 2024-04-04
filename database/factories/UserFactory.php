@@ -31,6 +31,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->email(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'fecha_nacimiento' => '1995-09-12',
         ];
     }
 

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'telefono' => env('ADMIN_PHONE', ''),
             'email' => env('ADMIN_EMAIL', 'admin@email.com'),
             'password' => bcrypt(env('ADMIN_PASSWORD', 'password')),
+            'fecha_nacimiento' => '1995-09-12',
         ]);
     }
 }

@@ -82,6 +82,7 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'telefono' => $validated['telefono'],
             'password' => bcrypt($validated['password']),
+            'fecha_nacimiento' => $validated['fecha_nacimiento'],
         ]);
 
         auth()->login($user);

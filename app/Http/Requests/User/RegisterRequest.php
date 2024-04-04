@@ -43,6 +43,10 @@ class RegisterRequest extends FormRequest
                 'confirmed',
                 'min:6',
             ],
+            'fecha_nacimiento' => [
+                'required',
+                'string',
+            ],
         ];
     }
 

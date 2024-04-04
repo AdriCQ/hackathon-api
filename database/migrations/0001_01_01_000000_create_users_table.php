@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('apellido_materno');
             $table->string('telefono')->unique();
             $table->string('email')->nullable()->unique();
+            $table->string('fecha_nacimiento')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
